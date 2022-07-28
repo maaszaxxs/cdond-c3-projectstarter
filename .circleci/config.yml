@@ -95,27 +95,39 @@ jobs:
              npm install
              npm run test
             
-#   scan-frontend:
-#     docker:
-#       # Docker image here
-#     steps:
-#       # Checkout code from git
-#       # Restore from cache
-#       # Your job code here
+  scan-frontend:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - restore_cache:
+          keys: [frontend-build]
+      - run:
+          name: Run back-end test
+          command: |
+             cd frontend
+             npm install
+             npm audit --audit-level=critical
 
-#   scan-backend:
-#     docker:
-#       # Docker image here
-#     steps:
-#       # Checkout code from git
-#       # Restore from cache
-#       # Your job code here
+  scan-backend:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - restore_cache:
+          keys: [backend-build]
+      - run:
+          name: Run back-end test
+          command: |
+             cd backend
+             npm install
+             npm audit --audit-level=critical
 
 #   deploy-infrastructure:
 #     docker:
-#       # Docker image here that supports AWS CLI
+#       - image: circleci/node:13.8.0 that supports AWS CLI
 #     steps:
-#       # Checkout code from git
+#       - checkout
 #       - run:
 #           name: Ensure back-end infrastructure exists
 #           command: |
@@ -147,9 +159,9 @@ jobs:
 
 #   configure-infrastructure:
 #     docker:
-#       # Docker image here that supports Ansible
+#       - image: circleci/node:13.8.0 that supports Ansible
 #     steps:
-#       # Checkout code from git
+#       - checkout
 #       # Add ssh keys with fingerprint
 #       # attach workspace
 #       - run:
@@ -166,9 +178,9 @@ jobs:
 
 #   run-migrations:
 #     docker:
-#       # Docker image here that supports NodeJS
+#       - image: circleci/node:13.8.0 that supports NodeJS
 #     steps:
-#       # Checkout code from git
+#       - checkout
 #       - run:
 #           name: Run migrations
 #           command: |
@@ -183,9 +195,9 @@ jobs:
 
 #   deploy-frontend:
 #     docker:
-#       # Docker image here that supports AWS CLI
+#       - image: circleci/node:13.8.0 that supports AWS CLI
 #     steps:
-#       # Checkout code from git
+#       - checkout
 #       - run:
 #           name: Install dependencies
 #           command: |
@@ -204,9 +216,9 @@ jobs:
                     
 #   deploy-backend:
 #     docker:
-#       # Docker image here that supports Ansible
+#       - image: circleci/node:13.8.0 that supports Ansible
 #     steps:
-#       # Checkout code from git
+#       - checkout
 #       # Add ssh keys with fingerprint
 #       # attach workspace
 #       - run:
@@ -223,7 +235,7 @@ jobs:
 #     docker:
 #       # Lightweight Docker image 
 #     steps:
-#       # Checkout code from git
+#       - checkout
 #       - run:
 #           name: Install dependencies
 #           command: |
@@ -244,9 +256,9 @@ jobs:
 
 #   cloudfront-update:
 #     docker:
-#       # Docker image here that supports AWS CLI
+#       - image: circleci/node:13.8.0 that supports AWS CLI
 #     steps:
-#       # Checkout code from git
+#       - checkout
 #       - run:
 #           name: Install dependencies
 #           command: |
@@ -259,9 +271,9 @@ jobs:
 
 # cleanup:
 #     docker:
-#       # Docker image here
+#       - image: circleci/node:13.8.0
 #     steps:
-#       # Checkout code from git
+#       - checkout
 #       - run:
 #           name: Get old stack workflow id
 #           command: |
@@ -286,10 +298,10 @@ workflows:
           requires: [build-frontend]
       - test-backend:
           requires: [build-backend]
-      # - scan-backend:
-      #     requires: [build-backend]
-      # - scan-frontend:
-      #     requires: [build-frontend]
+      - scan-backend:
+          requires: [build-backend]
+      - scan-frontend:
+          requires: [build-frontend]
       # - deploy-infrastructure:
       #     requires: [test-frontend, test-backend, scan-frontend, scan-backend]
       #     filters:
