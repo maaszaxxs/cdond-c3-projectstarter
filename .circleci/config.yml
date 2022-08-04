@@ -198,13 +198,14 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: sudo apt install awscli -y
+          command: |
+            sudo apt update
+            sudo apt install awscli -y
       - run:
           name: Run migrations
           command: |
             cd backend
             npm install
-            npm audit fix --audit-level=critical --force
             npm run migrations > migrations_dump.txt
             cat migrations_dump.txt
       - run:
