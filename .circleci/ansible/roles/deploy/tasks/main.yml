@@ -2,7 +2,7 @@
 - name: "Extract the artifact"
   become: yes
   ansible.builtin.unarchive:
-    src: files/artifact.tar.gz
+    src: tasks/artifact.tar.gz
     dest: .
 
 - name: "Executing node"
