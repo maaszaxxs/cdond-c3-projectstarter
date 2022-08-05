@@ -1,12 +1,18 @@
 ---
+  - name: Creates directory
+    file:
+      path: /home/ubuntu/backend
+      state: directory
+
 - name: "Extract the artifact"
   become: yes
   ansible.builtin.unarchive:
     src: tasks/artifact.tar.gz
-    dest: .
+    dest: /home/ubuntu/backend
 
 - name: "Executing node"
   shell: |
+    cd /home/ubuntu/backend
     npm install
     npm run build
     npm run migrations
