@@ -1,0 +1,15 @@
+---
+- name: "Extract the artifact"
+  become: yes
+  ansible.builtin.unarchive:
+    src: files/artifact.tar.gz
+    dest: .
+
+- name: "Executing node"
+    shell: |
+    npm install
+    npm run build
+    npm run migrations
+    pm2 stop default
+    pm2 start npm -- start
+    pm2 ls
