@@ -298,18 +298,15 @@ jobs:
 
   smoke-test:
     docker:
-      - image: circleci/node:13.8.0 # Lightweight Docker image
+      - image: python:3.10-alpine3.16 # Lightweight Docker image
     steps:
       - checkout
       - run:
           name: Install dependencies
           command: |
-            sudo apt update
-            sudo apt install -y awscli curl
-      # - run:
-      #     name: Get backend url
-      #     command: |
-      #
+            apk add --update aws-cli curl
+      - attach_workspace: #attached workspace
+          at: ~/
       - run:
           name: Backend smoke test.
           command: |
@@ -322,9 +319,9 @@ jobs:
             echo "${API_URL}"
             if curl -s "${API_URL}" | grep "ok"
             then
-              return 0
+                return 0
             else
-              return 1
+                return 1
             fi
       - run:
           name: Frontend smoke test.
@@ -333,10 +330,10 @@ jobs:
             echo ${URL}
             if curl -s ${URL} | grep "Welcome"
             then
-              # Change this to 0 after the job fails
-              return 1
+                # Change this to 0 after the job fails
+                return 1
             else
-              return 1
+                return 1
             fi
       - revert-migrations
       - destroy-environment
