@@ -304,7 +304,8 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            sudo apt install -y curl awscli
+            sudo apt update
+            sudo apt install -y awscli
       - run:
           name: Get backend url
           command: |
