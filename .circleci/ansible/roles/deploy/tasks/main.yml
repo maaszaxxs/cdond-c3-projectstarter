@@ -1,8 +1,8 @@
 ---
-  - name: Creates directory
-    file:
-      path: /home/ubuntu/backend
-      state: directory
+- name: Creates directory
+  file:
+    path: /home/ubuntu/backend
+    state: directory
 
 - name: "Extract the artifact"
   become: yes
