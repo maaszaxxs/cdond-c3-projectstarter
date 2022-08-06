@@ -305,9 +305,13 @@ jobs:
           name: Install dependencies
           command: |
             sudo apt update
-            sudo apt install -y awscli
+            sudo apt install -y awscli curl
+      # - run:
+      #     name: Get backend url
+      #     command: |
+      #
       - run:
-          name: Get backend url
+          name: Backend smoke test.
           command: |
             # Fetch and prepare the BACKEND_IP env var
             export BACKEND_IP=$(aws ec2 describe-instances \
@@ -316,10 +320,7 @@ jobs:
             --output text)
             export API_URL="http://${BACKEND_IP}:3030/api/status"
             echo "${API_URL}"
-      - run:
-          name: Backend smoke test.
-          command: |
-            if curl -s ${API_URL} | grep "ok"
+            if curl -s "${API_URL}" | grep "ok"
             then
                 return 0
             else
