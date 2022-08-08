@@ -7,7 +7,7 @@
 - name: "Extract the artifact"
   become: yes
   ansible.builtin.unarchive:
-    src: tasks/artifact.tar.gz
+    src: roles/deploy/tasks/artifact.tar.gz
     dest: /home/ubuntu/backend
 
 - name: "Executing node"
@@ -17,5 +17,6 @@
     npm run build
     npm run migrations
     pm2 stop default
+    export $(grep TYPEORM_HOST /home/ubuntu/backend/.env)
     pm2 start npm -- start
     pm2 ls
