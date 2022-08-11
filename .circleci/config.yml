@@ -37,6 +37,23 @@ commands:
                 npm run migration:revert
             fi
 
+  revert-OldWorkflowID:
+    description: Revert the OldWorkflowID
+    parameters:
+      workflow_id:
+        type: string
+        default: '361148821472'
+    steps:
+      - run:
+          name: Revert OldWorkflowID
+          when: on_fail
+          command: |
+            aws cloudformation deploy \
+              --template-file .circleci/files/cloudfront.yml \
+              --stack-name InitialStack \
+              --parameter-overrides WorkflowID=<<parameters.workflow_id>> \
+              --tags project=udapeople
+
 jobs:
   build-frontend:
     docker:
@@ -347,7 +364,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            yum install -y tar gzip
+            yum install -y tar
       - run:
           name: Get old stack workflow id
           command: |
@@ -369,7 +386,7 @@ jobs:
             aws cloudformation deploy \
               --template-file .circleci/files/cloudfront.yml \
               --stack-name InitialStack \
-              --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
               --tags project=udapeople
       - persist_to_workspace:
           root: ~/
@@ -377,6 +394,7 @@ jobs:
             - project/OldWorkflowID.txt
       - revert-migrations
       - destroy-environment
+      - revert-OldWorkflowID
 
 
   cleanup:
@@ -384,6 +402,10 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            yum install -y tar
       - attach_workspace: #attached workspace
           at: ~/
       - run:
@@ -406,6 +428,7 @@ jobs:
             fi
       - revert-migrations
       - destroy-environment
+      - revert-OldWorkflowID
 
 workflows:
   default:
