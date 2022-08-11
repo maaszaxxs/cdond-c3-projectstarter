@@ -39,10 +39,6 @@ commands:
 
   revert-OldWorkflowID:
     description: Revert the OldWorkflowID
-    parameters:
-      workflow_id:
-        type: string
-        default: '361148821472'
     steps:
       - run:
           name: Revert OldWorkflowID
@@ -51,7 +47,7 @@ commands:
             aws cloudformation deploy \
               --template-file .circleci/files/cloudfront.yml \
               --stack-name InitialStack \
-              --parameter-overrides WorkflowID=<<parameters.workflow_id>> \
+              --parameter-overrides WorkflowID='361148821472' \
               --tags project=udapeople
 
 jobs:
