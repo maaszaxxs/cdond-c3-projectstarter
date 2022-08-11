@@ -379,7 +379,7 @@ jobs:
       - destroy-environment
 
 
-cleanup:
+  cleanup:
     docker: # Docker image that supports AWS CLI
       - image: amazon/aws-cli
     steps:
@@ -404,6 +404,8 @@ cleanup:
             else
               echo "no destroy"
             fi
+      - revert-migrations
+      - destroy-environment
 
 workflows:
   default:
