@@ -37,18 +37,18 @@ commands:
                 npm run migration:revert
             fi
 
-  revert-OldWorkflowID:
-    description: Revert the OldWorkflowID
-    steps:
-      - run:
-          name: Revert OldWorkflowID
-          when: on_fail
-          command: |
-            aws cloudformation deploy \
-              --template-file .circleci/files/cloudfront.yml \
-              --stack-name InitialStack \
-              --parameter-overrides WorkflowID='361148821472' \
-              --tags project=udapeople
+  # revert-OldWorkflowID:
+  #   description: Revert the OldWorkflowID
+  #   steps:
+  #     - run:
+  #         name: Revert OldWorkflowID
+  #         when: on_fail
+  #         command: |
+  #           aws cloudformation deploy \
+  #             --template-file .circleci/files/cloudfront.yml \
+  #             --stack-name InitialStack \
+  #             --parameter-overrides WorkflowID='361148821472' \
+  #             --tags project=udapeople
 
 jobs:
   build-frontend:
@@ -390,7 +390,6 @@ jobs:
             - project/OldWorkflowID.txt
       - revert-migrations
       - destroy-environment
-      - revert-OldWorkflowID
 
 
   cleanup:
@@ -424,7 +423,6 @@ jobs:
             fi
       - revert-migrations
       - destroy-environment
-      - revert-OldWorkflowID
 
 workflows:
   default:
