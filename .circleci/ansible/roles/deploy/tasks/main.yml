@@ -17,7 +17,6 @@
     npm install
     npm run build
     npm run migrations
-    pm2 stop all
-    export $(grep TYPEORM_HOST /home/ubuntu/backend/.env)
-    pm2 start npm
+    pm2 delete all
+    export $(grep TYPEORM_HOST /home/ubuntu/backend/.env) && pm2 start npm -- start
     pm2 ls
