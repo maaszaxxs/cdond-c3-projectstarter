@@ -20,12 +20,12 @@
     pm2 delete all
     export $(grep TYPEORM_HOST /home/ubuntu/backend/.env) && pm2 start npm -- start
 
-- name: check pm2 log
-  become: yes
-  shell: pm2 logs --nostream
-  register: pm2Log
-
-- name: Show PM2 log
-  debug:
-    var: pm2Log
-    verbosity: 2
+# - name: check pm2 log
+#   become: yes
+#   shell: pm2 logs --nostream
+#   register: pm2Log
+#
+# - name: Show PM2 log
+#   debug:
+#     var: pm2Log
+#     verbosity: 2
