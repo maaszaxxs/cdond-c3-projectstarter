@@ -1,5 +1,5 @@
 URL01 https://github.com/maaszaxxs/cdond-c3-projectstarter
-URL02 http://udapeople-28a1730.s3-website-us-east-1.amazonaws.com/#/employees
-URL3 http://d3aerxe525j3q1.cloudfront.net
-URL4 http://ec2-3-85-235-57.compute-1.amazonaws.com/ 
+URL02 http://udapeople-64945d0.s3-website-us-east-1.amazonaws.com/#/employees
+URL03 http://d3aerxe525j3q1.cloudfront.net/#/employees
+URL04 http://ec2-3-228-204-159.compute-1.amazonaws.com/
 URL5 http://ec2-34-228-144-237.compute-1.amazonaws.com/
